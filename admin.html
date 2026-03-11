@@ -3,351 +3,682 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Jenext Mobile - Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<title>Jenext Mobile – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#eef2f7;--bg2:#f4f7fb;--card:#fff;--ink:#0f1829;--ink2:#334466;--ink3:#7a8aaa;--accent:#ff6b2b;--accent2:#1a1a2e;--accent-light:#fff0ea;--border:#d0daea;--border2:#b8c8dc;--green:#16a34a;--red:#dc2626;--yellow:#d97706;--shadow:0 2px 16px rgba(26,26,46,0.09);--sw:230px}
 *{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f0f4fa;--card:#fff;--ink:#0d1726;--ink2:#2d4060;--ink3:#7a8aaa;
+  --accent:#ff5c1a;--accent2:#1a1a2e;--accent-light:#fff2ec;
+  --border:#dae2f0;--green:#16a34a;--red:#dc2626;--yellow:#d97706;
+  --shadow:0 4px 24px rgba(13,23,38,0.08);--sw:230px;
+  --grad:linear-gradient(135deg,#ff5c1a,#ff8c42);
+}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
-/* LOGIN */
-#loginScreen{min-height:100vh;display:flex!important;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#f0f4fa,#e8f0fb,#f4f0fa)}
-.login-box{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,0.9);border-radius:22px;padding:40px 36px;width:100%;max-width:400px;text-align:center;box-shadow:0 16px 48px rgba(13,23,38,0.12)}
-.llogo{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;margin-bottom:4px}
-.llogo span{color:var(--accent)}
-.lsub{color:var(--ink3);font-size:0.84rem;margin-bottom:28px}
-.login-box input{width:100%;padding:12px 16px;margin-bottom:11px;background:#eef2f7;border:1.5px solid var(--border);border-radius:10px;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s}
+/* LOGIN PAGE */
+#loginPage{
+  display:flex;min-height:100vh;align-items:center;justify-content:center;
+  padding:20px;background:linear-gradient(160deg,#f0f4fa,#e8f0fb,#f4f0fa);
+}
+.login-box{
+  background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:380px;
+  text-align:center;box-shadow:0 16px 48px rgba(13,23,38,0.12);
+}
+.login-logo{font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:900;margin-bottom:4px}
+.login-logo span{color:var(--accent)}
+.login-sub{color:var(--ink3);font-size:0.82rem;margin-bottom:28px}
+.login-box input{
+  display:block;width:100%;padding:12px 14px;margin-bottom:12px;
+  background:#f0f4fa;border:1.5px solid var(--border);border-radius:10px;
+  color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;outline:none;
+}
 .login-box input:focus{border-color:var(--accent);background:#fff}
-.lbtn{width:100%;padding:13px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 14px rgba(255,107,43,0.25)}
-.lbtn:hover{background:#e55a1f;transform:translateY(-1px)}
-.lerr{color:var(--red);font-size:0.83rem;margin-top:9px;display:none}
+.login-btn{
+  width:100%;padding:13px;background:var(--grad);color:#fff;border:none;
+  border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;
+  font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(255,92,26,0.28);
+}
+.login-btn:hover{opacity:0.92}
+.login-err{color:var(--red);font-size:0.82rem;margin-top:10px;display:none}
+.login-hint{margin-top:14px;color:var(--ink3);font-size:0.75rem}
+.login-hint b{color:var(--ink2)}
 
-/* APP */
-#adminApp{min-height:100vh}
-.topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;height:56px;background:#fff;border-bottom:1.5px solid var(--border);align-items:center;justify-content:space-between;padding:0 16px;box-shadow:var(--shadow)}
-.tb-logo{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800}
+/* ADMIN APP */
+#adminPage{display:none}
+
+/* TOPBAR (mobile) */
+.topbar{
+  display:none;position:fixed;top:0;left:0;right:0;z-index:200;height:56px;
+  background:#fff;border-bottom:1.5px solid var(--border);
+  align-items:center;justify-content:space-between;padding:0 16px;
+  box-shadow:var(--shadow);
+}
+.tb-logo{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:900}
 .tb-logo span{color:var(--accent)}
-.tb-btn{background:none;border:none;color:var(--ink);font-size:1.4rem;cursor:pointer;padding:4px}
-.sidebar{width:var(--sw);background:var(--accent2);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:150;transition:transform 0.3s}
-.sidebar-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.sl-text{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800;color:#fff}
-.sl-text span{color:var(--accent)}
-.sl-sub{font-size:0.68rem;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
-.sidebar-nav{flex:1;padding:12px 0;overflow-y:auto}
-.ni{display:flex;align-items:center;gap:11px;padding:11px 20px;color:rgba(255,255,255,0.55);cursor:pointer;transition:all 0.2s;font-size:0.87rem;font-weight:500;border-left:3px solid transparent;user-select:none}
-.ni:hover{color:#fff;background:rgba(255,255,255,0.05)}
-.ni.active{color:#fff;background:rgba(255,107,43,0.15);border-left-color:var(--accent)}
-.ni-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
-.sidebar-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.08)}
-.logout-btn{width:100%;padding:9px;background:rgba(220,38,38,0.15);border:1px solid rgba(220,38,38,0.3);color:#fca5a5;border-radius:8px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:600;transition:background 0.2s}
-.logout-btn:hover{background:rgba(220,38,38,0.25)}
-.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:140}
+.tb-ham{background:none;border:none;font-size:1.4rem;cursor:pointer;padding:4px}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:140}
+.sb-overlay.show{display:block}
 
-/* MAIN */
+/* SIDEBAR */
+.sidebar{
+  width:var(--sw);background:var(--accent2);
+  position:fixed;top:0;left:0;bottom:0;z-index:150;
+  display:flex;flex-direction:column;transition:transform .3s;
+}
+.sb-logo{padding:20px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sb-logo-text{font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:900;color:#fff}
+.sb-logo-text span{color:var(--accent)}
+.sb-logo-sub{font-size:0.68rem;color:rgba(255,255,255,0.35);letter-spacing:2px;margin-top:2px}
+.sb-nav{flex:1;padding:10px 0;overflow-y:auto}
+.ni{
+  display:flex;align-items:center;gap:10px;padding:11px 20px;
+  color:rgba(255,255,255,0.5);cursor:pointer;font-size:0.86rem;font-weight:600;
+  border-left:3px solid transparent;transition:all .2s;user-select:none;
+}
+.ni:hover{color:#fff;background:rgba(255,255,255,0.05)}
+.ni.active{color:#fff;background:rgba(255,92,26,0.15);border-left-color:var(--accent)}
+.ni-ico{font-size:1rem;width:18px;text-align:center;flex-shrink:0}
+.sb-foot{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.08)}
+.sb-admin-label{font-size:0.72rem;color:rgba(255,255,255,0.3);margin-bottom:8px}
+.sb-admin-label b{color:var(--accent)}
+.logout-btn{
+  width:100%;padding:9px;background:rgba(220,38,38,0.15);
+  border:1px solid rgba(220,38,38,0.3);color:#fca5a5;
+  border-radius:8px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.84rem;font-weight:700;
+}
+.logout-btn:hover{background:rgba(220,38,38,0.25)}
+
+/* MAIN CONTENT */
 .main{margin-left:var(--sw);min-height:100vh;padding:28px}
 .page{display:none}
 .page.active{display:block}
-.pg-title{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:3px;color:var(--ink)}
-.pg-sub{color:var(--ink3);font-size:0.87rem;margin-bottom:24px}
+.pg-title{font-family:'Outfit',sans-serif;font-size:1.55rem;font-weight:900;margin-bottom:2px}
+.pg-sub{color:var(--ink3);font-size:0.85rem;margin-bottom:22px}
 
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px;margin-bottom:26px}
-.sc{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:18px;transition:all 0.3s}
-.sc:hover{border-color:rgba(255,107,43,0.35);box-shadow:var(--shadow);transform:translateY(-2px)}
-.sc-ico{font-size:1.4rem;margin-bottom:8px}
-.sc-num{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1}
-.sc-lbl{color:var(--ink3);font-size:0.76rem;margin-top:2px;letter-spacing:0.3px}
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.sc{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:18px;transition:all .25s}
+.sc:hover{border-color:rgba(255,92,26,.3);box-shadow:var(--shadow);transform:translateY(-2px)}
+.sc-ico{font-size:1.3rem;margin-bottom:8px}
+.sc-num{font-family:'Outfit',sans-serif;font-size:1.85rem;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.sc-lbl{color:var(--ink3);font-size:0.74rem;margin-top:3px;font-weight:600}
 
-/* TABLE */
-.tw{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden}
-.th{padding:14px 18px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.th-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--ink)}
-.add-btn{padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;white-space:nowrap;transition:background 0.2s}
-.add-btn:hover{background:#e55a1f}
+/* TABLE WIDGET */
+.tw{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px}
+.tw-head{padding:14px 18px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.tw-title{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:800}
+.add-btn{padding:8px 16px;background:var(--grad);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;font-weight:700;white-space:nowrap}
+.add-btn:hover{opacity:.9}
 .tscroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:480px}
-th{padding:11px 14px;text-align:left;font-size:0.7rem;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);background:#eef2f7;white-space:nowrap}
-td{padding:12px 14px;font-size:0.87rem;border-bottom:1px solid var(--border);vertical-align:middle}
+table{width:100%;border-collapse:collapse;min-width:460px}
+th{padding:10px 14px;text-align:left;font-size:0.68rem;color:var(--ink3);letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--border);background:#f8fafd;white-space:nowrap;font-weight:700}
+td{padding:12px 14px;font-size:0.86rem;border-bottom:1px solid var(--border);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#f0f5fa}
+tr:hover td{background:#fafcff}
 
-/* PHONE THUMB IN TABLE */
-.ph-thumb{width:40px;height:40px;border-radius:8px;object-fit:contain;background:#dde6f0;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.ph-thumb img{width:100%;height:100%;object-fit:contain;border-radius:7px}
-.ph-info{display:flex;align-items:center;gap:10px}
+/* THUMB */
+.ph-cell{display:flex;align-items:center;gap:10px}
+.ph-thumb{width:38px;height:38px;border-radius:8px;background:#eef2f7;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;overflow:hidden}
+.ph-thumb img{width:100%;height:100%;object-fit:contain}
 
 /* BADGES */
-.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.7rem;font-weight:700;white-space:nowrap}
+.badge{display:inline-block;padding:3px 9px;border-radius:100px;font-size:0.68rem;font-weight:800;white-space:nowrap}
 .b-new{background:#dcfce7;color:var(--green)}
 .b-used{background:#fef3c7;color:var(--yellow)}
 .b-pending{background:#fef3c7;color:var(--yellow)}
 .b-resolved{background:#dcfce7;color:var(--green)}
-.b-progress{background:#dbeafe;color:#2563eb}
+.b-in-progress{background:#dbeafe;color:#2563eb}
 .b-completed{background:#dcfce7;color:var(--green)}
 
-.act-btns{display:flex;gap:6px}
-.ebtn{padding:5px 11px;background:#fff3ee;border:1px solid rgba(255,107,43,0.25);color:var(--accent);border-radius:7px;cursor:pointer;font-size:0.76rem;font-weight:600;transition:background 0.2s;white-space:nowrap}
+/* ACTION BTNS */
+.act{display:flex;gap:5px}
+.ebtn{padding:5px 10px;background:#fff3ee;border:1px solid rgba(255,92,26,.25);color:var(--accent);border-radius:7px;cursor:pointer;font-size:0.74rem;font-weight:700;white-space:nowrap}
 .ebtn:hover{background:var(--accent-light)}
-.dbtn{padding:5px 11px;background:#fef2f2;border:1px solid rgba(220,38,38,0.2);color:var(--red);border-radius:7px;cursor:pointer;font-size:0.76rem;font-weight:600;transition:background 0.2s;white-space:nowrap}
+.dbtn{padding:5px 10px;background:#fef2f2;border:1px solid rgba(220,38,38,.2);color:var(--red);border-radius:7px;cursor:pointer;font-size:0.74rem;font-weight:700;white-space:nowrap}
 .dbtn:hover{background:#fee2e2}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;align-items:center;justify-content:center;padding:16px}
-.modal-overlay.open{display:flex}
-.modal{background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:28px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;box-shadow:0 16px 60px rgba(0,0,0,0.15)}
-.modal h3{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:18px;color:var(--ink)}
-.fg{margin-bottom:12px}
-.fg label{display:block;font-size:0.77rem;font-weight:600;color:var(--ink2);margin-bottom:5px}
-.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;background:#eef2f7;border:1.5px solid var(--border);border-radius:9px;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent);background:#fff}
-.fg select option{background:#fff}
-.fg textarea{height:72px;resize:vertical}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.modal-btns{display:flex;gap:10px;margin-top:18px;justify-content:flex-end}
-.cancelbtn{padding:10px 18px;background:transparent;border:1.5px solid var(--border2);color:var(--ink3);border-radius:9px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;transition:border-color 0.2s}
-.cancelbtn:hover{border-color:var(--accent)}
-.savebtn{padding:10px 22px;background:var(--accent);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:700;transition:background 0.2s}
-.savebtn:hover{background:#e55a1f}
-
-/* IMAGE UPLOAD */
-.img-upload-area{border:2px dashed var(--border2);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;background:#eef2f7;position:relative;overflow:hidden}
-.img-upload-area:hover{border-color:var(--accent);background:var(--accent-light)}
-.img-upload-area.has-img{border-style:solid;border-color:rgba(255,107,43,0.35);background:var(--accent-light)}
-.img-preview{width:100%;max-height:160px;object-fit:contain;border-radius:8px;display:none}
-.img-preview.show{display:block;margin-bottom:10px}
-.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.img-placeholder{pointer-events:none}
-.img-placeholder .uico{font-size:2rem;margin-bottom:8px;display:block}
-.img-placeholder p{font-size:0.82rem;color:var(--ink3);margin:0}
-.img-placeholder small{font-size:0.72rem;color:var(--ink3)}
-.img-clear-btn{position:absolute;top:8px;right:8px;background:var(--red);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:0.75rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2;line-height:1}
-.img-clear-btn.show{display:flex}
+.rbtn{padding:5px 10px;background:#f0fdf4;border:1px solid rgba(22,163,74,.2);color:var(--green);border-radius:7px;cursor:pointer;font-size:0.74rem;font-weight:700;white-space:nowrap}
 
 /* EMPTY */
-.empty{text-align:center;padding:38px;color:var(--ink3)}
-.empty-ico{font-size:2.6rem;margin-bottom:10px}
+.empty{text-align:center;padding:36px;color:var(--ink3)}
+.empty-ico{font-size:2.4rem;margin-bottom:8px}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;align-items:center;justify-content:center;padding:16px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:18px;padding:26px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.18)}
+.modal h3{font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:900;margin-bottom:18px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:0.76rem;font-weight:700;color:var(--ink2);margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;background:#f0f4fa;border:1.5px solid var(--border);border-radius:9px;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;outline:none;transition:all .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent);background:#fff}
+.fg textarea{height:70px;resize:vertical}
+.fg select option{background:#fff}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.modal-btns{display:flex;gap:10px;margin-top:16px;justify-content:flex-end}
+.m-cancel{padding:10px 18px;background:transparent;border:1.5px solid var(--border);color:var(--ink3);border-radius:9px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem}
+.m-save{padding:10px 22px;background:var(--grad);color:#fff;border:none;border-radius:9px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.86rem;font-weight:800}
+.m-save:hover{opacity:.9}
+
+/* IMAGE UPLOAD */
+.img-area{border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;cursor:pointer;background:#f0f4fa;position:relative;overflow:hidden;transition:all .2s}
+.img-area:hover{border-color:var(--accent);background:var(--accent-light)}
+.img-area.has-img{border-style:solid;border-color:rgba(255,92,26,.35)}
+.img-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-prev{width:100%;max-height:150px;object-fit:contain;border-radius:8px;display:none;margin-bottom:8px}
+.img-prev.show{display:block}
+.img-ph{pointer-events:none}
+.img-ph .uico{font-size:1.8rem;display:block;margin-bottom:6px}
+.img-ph p{font-size:0.8rem;color:var(--ink3)}
+.img-clear{position:absolute;top:8px;right:8px;background:var(--red);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:0.7rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2;line-height:1}
+.img-clear.show{display:flex}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--ink);color:#fff;border-radius:10px;padding:11px 18px;font-size:0.86rem;font-weight:600;transform:translateY(80px);opacity:0;transition:all 0.3s;max-width:280px}
+.toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--ink);color:#fff;border-radius:10px;padding:10px 18px;font-size:0.84rem;font-weight:700;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
 .toast.show{transform:translateY(0);opacity:1}
-.save-ind{display:none;position:fixed;top:14px;right:14px;z-index:9998;background:#dcfce7;border:1px solid #86efac;color:var(--green);padding:7px 14px;border-radius:8px;font-size:0.78rem;font-weight:700}
-.save-ind.show{display:block}
+.saved-ind{display:none;position:fixed;top:12px;right:12px;z-index:9998;background:#dcfce7;border:1px solid #86efac;color:var(--green);padding:6px 14px;border-radius:8px;font-size:0.76rem;font-weight:800}
+.saved-ind.show{display:block}
 
 /* RESPONSIVE */
-@media(max-width:900px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.sb-overlay.open{display:block}.topbar{display:flex}.main{margin-left:0;padding:68px 16px 24px}.stats-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:600px){.modal{padding:20px}.fr{grid-template-columns:1fr}.modal-btns{flex-direction:column-reverse}.cancelbtn,.savebtn{width:100%;text-align:center}.stats-grid{grid-template-columns:repeat(2,1fr)}.pg-title{font-size:1.3rem}.main{padding:64px 12px 20px}}
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .topbar{display:flex}
+  .main{margin-left:0;padding:68px 14px 24px}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:600px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .modal{padding:20px}
+  .frow{grid-template-columns:1fr}
+  .modal-btns{flex-direction:column-reverse}
+  .m-cancel,.m-save{width:100%;text-align:center}
+  .login-box{padding:30px 22px}
+}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
+<!-- ══ LOGIN PAGE ══ -->
+<div id="loginPage">
   <div class="login-box">
-    <div class="llogo">JENEXT<span>MOBILE</span></div>
-    <div class="lsub">🔐 Admin Panel</div>
-    <input type="text" id="loginUser" placeholder="Username"/>
-    <input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <button class="lbtn" onclick="doLogin()">Login →</button>
-    <div class="lerr" id="loginError">❌ Invalid credentials</div>
-    <div style="margin-top:13px;color:var(--ink3);font-size:0.76rem">Username: <b>jenext</b> &nbsp;|&nbsp; Password: <b>janith2005</b></div>
+    <div class="login-logo">📱 JENEXT<span>MOBILE</span></div>
+    <div class="login-sub">🔐 Admin Panel</div>
+    <input type="text" id="u" placeholder="Username" autocomplete="username"/>
+    <input type="password" id="p" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/>
+    <button class="login-btn" onclick="login()">Login →</button>
+    <div class="login-err" id="lerr">❌ Wrong username or password</div>
+    <div class="login-hint">Username: <b>jenext</b> &nbsp;|&nbsp; Password: <b>janith2005</b></div>
   </div>
 </div>
 
-<!-- ADMIN APP -->
-<div id="adminApp" style="display:none;min-height:100vh">
-  <div class="topbar" id="topbar">
-    <div class="tb-logo">JENEXT<span>MOBILE</span></div>
-    <button class="tb-btn" onclick="toggleSidebar()">☰</button>
+<!-- ══ ADMIN PAGE ══ -->
+<div id="adminPage">
+  <!-- Mobile topbar -->
+  <div class="topbar">
+    <div class="tb-logo">📱 JENEXT<span>MOBILE</span></div>
+    <button class="tb-ham" onclick="toggleSB()">☰</button>
   </div>
-  <div class="sb-overlay" id="sbOverlay" onclick="closeSidebar()"></div>
+  <div class="sb-overlay" id="sbOverlay" onclick="closeSB()"></div>
+
+  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
-    <div class="sidebar-logo"><div class="sl-text">📱 JENEXT<span>MOBILE</span></div><div class="sl-sub">Admin Panel</div></div>
-    <nav class="sidebar-nav">
-      <div class="ni active" onclick="showPage('dashboard',this)"><span class="ni-icon">📊</span> Dashboard</div>
-      <div class="ni" onclick="showPage('phones',this)"><span class="ni-icon">📱</span> Phones</div>
-      <div class="ni" onclick="showPage('inquiries',this)"><span class="ni-icon">💬</span> Inquiries</div>
-      <div class="ni" onclick="showPage('repairs',this)"><span class="ni-icon">🔧</span> Repairs</div>
+    <div class="sb-logo">
+      <div class="sb-logo-text">📱 JENEXT<span>MOBILE</span></div>
+      <div class="sb-logo-sub">ADMIN PANEL</div>
+    </div>
+    <nav class="sb-nav">
+      <div class="ni active" onclick="showPage('dash',this)"><span class="ni-ico">📊</span> Dashboard</div>
+      <div class="ni" onclick="showPage('phones',this)"><span class="ni-ico">📱</span> Phones</div>
+      <div class="ni" onclick="showPage('inquiries',this)"><span class="ni-ico">💬</span> Inquiries</div>
+      <div class="ni" onclick="showPage('repairs',this)"><span class="ni-ico">🔧</span> Repairs</div>
     </nav>
-    <div class="sidebar-footer">
-      <div style="font-size:0.75rem;color:rgba(255,255,255,0.35);margin-bottom:8px">Logged in as <span style="color:var(--accent)" id="adminName">Admin</span></div>
-      <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+    <div class="sb-foot">
+      <div class="sb-admin-label">Logged in as <b>Jenext Admin</b></div>
+      <button class="logout-btn" onclick="logout()">🚪 Logout</button>
     </div>
   </div>
 
+  <!-- Main -->
   <div class="main">
-    <!-- DASHBOARD -->
-    <div class="page active" id="page-dashboard">
+    <!-- Dashboard -->
+    <div class="page active" id="page-dash">
       <div class="pg-title">📊 Dashboard</div>
-      <div class="pg-sub">Welcome back! Here's your shop overview.</div>
+      <div class="pg-sub">Welcome back! Here's your overview.</div>
       <div class="stats-grid">
-        <div class="sc"><div class="sc-ico">📱</div><div class="sc-num" id="s-phones">—</div><div class="sc-lbl">Total Phones</div></div>
-        <div class="sc"><div class="sc-ico">📦</div><div class="sc-num" id="s-stock">—</div><div class="sc-lbl">In Stock</div></div>
-        <div class="sc"><div class="sc-ico">💬</div><div class="sc-num" id="s-inquiries">—</div><div class="sc-lbl">Inquiries</div></div>
-        <div class="sc"><div class="sc-ico">⏳</div><div class="sc-num" id="s-pending">—</div><div class="sc-lbl">Pending</div></div>
-        <div class="sc"><div class="sc-ico">🔧</div><div class="sc-num" id="s-repairs">—</div><div class="sc-lbl">Repairs</div></div>
-        <div class="sc"><div class="sc-ico">⚡</div><div class="sc-num" id="s-active">—</div><div class="sc-lbl">Active Repairs</div></div>
+        <div class="sc"><div class="sc-ico">📱</div><div class="sc-num" id="s-phones">0</div><div class="sc-lbl">Total Phones</div></div>
+        <div class="sc"><div class="sc-ico">📦</div><div class="sc-num" id="s-stock">0</div><div class="sc-lbl">In Stock</div></div>
+        <div class="sc"><div class="sc-ico">💬</div><div class="sc-num" id="s-inq">0</div><div class="sc-lbl">Inquiries</div></div>
+        <div class="sc"><div class="sc-ico">⏳</div><div class="sc-num" id="s-pend">0</div><div class="sc-lbl">Pending</div></div>
+        <div class="sc"><div class="sc-ico">🔧</div><div class="sc-num" id="s-rep">0</div><div class="sc-lbl">Repairs</div></div>
+        <div class="sc"><div class="sc-ico">⚡</div><div class="sc-num" id="s-active">0</div><div class="sc-lbl">Active Jobs</div></div>
       </div>
-      <div class="tw"><div class="th"><div class="th-title">⏳ Recent Inquiries</div></div><div class="tscroll" id="recentInq"></div></div>
+      <div class="tw">
+        <div class="tw-head"><div class="tw-title">⏳ Recent Inquiries</div></div>
+        <div class="tscroll" id="dashInq"></div>
+      </div>
     </div>
 
-    <!-- PHONES -->
+    <!-- Phones -->
     <div class="page" id="page-phones">
       <div class="pg-title">📱 Phone Inventory</div>
-      <div class="pg-sub">Manage your phones for sale. Upload photos for each phone.</div>
+      <div class="pg-sub">Add photos and manage your phones for sale.</div>
       <div class="tw">
-        <div class="th"><div class="th-title">All Phones</div><button class="add-btn" onclick="openPhoneModal()">+ Add Phone</button></div>
+        <div class="tw-head"><div class="tw-title">All Phones</div><button class="add-btn" onclick="openPhoneModal()">+ Add Phone</button></div>
         <div class="tscroll" id="phonesTable"></div>
       </div>
     </div>
 
-    <!-- INQUIRIES -->
+    <!-- Inquiries -->
     <div class="page" id="page-inquiries">
-      <div class="pg-title">💬 Customer Inquiries</div>
-      <div class="pg-sub">View and manage customer inquiries.</div>
-      <div class="tw"><div class="th"><div class="th-title">All Inquiries</div></div><div class="tscroll" id="inquiriesTable"></div></div>
+      <div class="pg-title">💬 Inquiries</div>
+      <div class="pg-sub">Customer inquiries and messages.</div>
+      <div class="tw">
+        <div class="tw-head"><div class="tw-title">All Inquiries</div></div>
+        <div class="tscroll" id="inqTable"></div>
+      </div>
     </div>
 
-    <!-- REPAIRS -->
+    <!-- Repairs -->
     <div class="page" id="page-repairs">
-      <div class="pg-title">🔧 Repair Jobs</div>
-      <div class="pg-sub">Track all repair jobs and status.</div>
+      <div class="pg-title">🔧 Repairs</div>
+      <div class="pg-sub">Track all repair jobs.</div>
       <div class="tw">
-        <div class="th"><div class="th-title">Repair Tracker</div><button class="add-btn" onclick="openRepairModal()">+ Add Repair</button></div>
-        <div class="tscroll" id="repairsTable"></div>
+        <div class="tw-head"><div class="tw-title">Repair Jobs</div><button class="add-btn" onclick="openRepairModal()">+ Add Job</button></div>
+        <div class="tscroll" id="repTable"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PHONE MODAL -->
-<div class="modal-overlay" id="phoneModal">
+<!-- Phone Modal -->
+<div class="modal-bg" id="phoneModal">
   <div class="modal">
-    <h3 id="phoneModalTitle">📱 Add Phone</h3>
-    <input type="hidden" id="phoneId"/>
-
-    <!-- IMAGE UPLOAD -->
+    <h3 id="pmTitle">📱 Add Phone</h3>
+    <input type="hidden" id="pmId"/>
     <div class="fg">
       <label>📸 Phone Photo</label>
-      <div class="img-upload-area" id="imgUploadArea">
-        <input type="file" id="phoneImageFile" accept="image/*" onchange="handleImageUpload(event)"/>
-        <img class="img-preview" id="imgPreview" alt="Preview"/>
-        <button class="img-clear-btn" id="imgClearBtn" onclick="clearImage(event)" type="button">✕</button>
-        <div class="img-placeholder" id="imgPlaceholder">
-          <span class="uico">📷</span>
-          <p>Click to upload phone photo</p>
-          <small>JPG, PNG, WEBP — Max 2MB</small>
-        </div>
+      <div class="img-area" id="imgArea">
+        <input type="file" id="imgFile" accept="image/*" onchange="handleImg(event)"/>
+        <img class="img-prev" id="imgPrev"/>
+        <button class="img-clear" id="imgClear" onclick="clearImg(event)" type="button">✕</button>
+        <div class="img-ph" id="imgPh"><span class="uico">📷</span><p>Click to upload phone photo (max 2MB)</p></div>
       </div>
     </div>
-
-    <div class="fr">
-      <div class="fg"><label>Phone Name *</label><input id="phoneName" placeholder="Samsung Galaxy A55"/></div>
-      <div class="fg"><label>Brand</label><input id="phoneBrand" placeholder="Samsung"/></div>
+    <div class="frow">
+      <div class="fg"><label>Phone Name *</label><input id="pmName" placeholder="Samsung Galaxy A55"/></div>
+      <div class="fg"><label>Brand</label><input id="pmBrand" placeholder="Samsung"/></div>
     </div>
-    <div class="fr">
-      <div class="fg"><label>Storage</label><input id="phoneStorage" placeholder="128GB"/></div>
-      <div class="fg"><label>Condition</label><select id="phoneCondition"><option value="new">Brand New</option><option value="used">Used</option></select></div>
+    <div class="frow">
+      <div class="fg"><label>Storage</label><input id="pmStorage" placeholder="128GB"/></div>
+      <div class="fg"><label>Condition</label>
+        <select id="pmCond"><option value="new">Brand New</option><option value="used">Used</option></select>
+      </div>
     </div>
-    <div class="fr">
-      <div class="fg"><label>Price (Rs.) *</label><input id="phonePrice" type="number" placeholder="85000"/></div>
-      <div class="fg"><label>Stock</label><input id="phoneStock" type="number" placeholder="1" value="1"/></div>
+    <div class="frow">
+      <div class="fg"><label>Price (Rs.) *</label><input id="pmPrice" type="number" placeholder="85000"/></div>
+      <div class="fg"><label>Stock</label><input id="pmStock" type="number" placeholder="1" value="1"/></div>
     </div>
-    <div class="fg"><label>Warranty</label><input id="phoneWarranty" placeholder="1 Year / 3 Months"/></div>
-    <div class="fg"><label>Description</label><textarea id="phoneDesc" placeholder="Short description..."></textarea></div>
-    <div class="fg"><label><input type="checkbox" id="phoneFeatured" style="width:auto;margin-right:8px"/> Show as Featured</label></div>
+    <div class="fg"><label>Warranty</label><input id="pmWarranty" placeholder="1 Year / 3 Months"/></div>
+    <div class="fg"><label>Description</label><textarea id="pmDesc" placeholder="Short description..."></textarea></div>
+    <div class="fg"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pmFeatured" style="width:auto"/> Show as Featured</label></div>
     <div class="modal-btns">
-      <button class="cancelbtn" onclick="closeModal('phoneModal')">Cancel</button>
-      <button class="savebtn" onclick="savePhone()">💾 Save Phone</button>
+      <button class="m-cancel" onclick="closeModal('phoneModal')">Cancel</button>
+      <button class="m-save" onclick="savePhone()">💾 Save Phone</button>
     </div>
   </div>
 </div>
 
-<!-- REPAIR MODAL -->
-<div class="modal-overlay" id="repairModal">
+<!-- Repair Modal -->
+<div class="modal-bg" id="repairModal">
   <div class="modal">
-    <h3 id="repairModalTitle">🔧 Add Repair Job</h3>
-    <input type="hidden" id="repairId"/>
-    <div class="fr">
-      <div class="fg"><label>Customer Name *</label><input id="repairCustomer" placeholder="Kamal Perera"/></div>
-      <div class="fg"><label>Phone Number</label><input id="repairPhone" placeholder="077 XXX XXXX"/></div>
+    <h3 id="rmTitle">🔧 Add Repair Job</h3>
+    <input type="hidden" id="rmId"/>
+    <div class="frow">
+      <div class="fg"><label>Customer Name *</label><input id="rmName" placeholder="Kamal Perera"/></div>
+      <div class="fg"><label>Phone Number</label><input id="rmPhone" placeholder="077 XXX XXXX"/></div>
     </div>
-    <div class="fr">
-      <div class="fg"><label>Device Type</label><select id="repairDevice"><option>Mobile</option><option>Laptop</option><option>Other</option></select></div>
-      <div class="fg"><label>Device Model</label><input id="repairModel" placeholder="Samsung A32"/></div>
+    <div class="frow">
+      <div class="fg"><label>Device</label>
+        <select id="rmDev"><option>Mobile</option><option>Laptop</option><option>Other</option></select>
+      </div>
+      <div class="fg"><label>Model</label><input id="rmModel" placeholder="Samsung A32"/></div>
     </div>
-    <div class="fg"><label>Issue</label><textarea id="repairIssue" placeholder="Describe the problem..."></textarea></div>
-    <div class="fr">
-      <div class="fg"><label>Estimated Cost (Rs.)</label><input id="repairCost" type="number" placeholder="3500"/></div>
-      <div class="fg"><label>Status</label><select id="repairStatus"><option value="pending">Pending</option><option value="in-progress">In Progress</option><option value="completed">Completed</option></select></div>
+    <div class="fg"><label>Issue</label><textarea id="rmIssue" placeholder="Describe the problem..."></textarea></div>
+    <div class="frow">
+      <div class="fg"><label>Estimated Cost (Rs.)</label><input id="rmCost" type="number" placeholder="3500"/></div>
+      <div class="fg"><label>Status</label>
+        <select id="rmStatus"><option value="pending">Pending</option><option value="in-progress">In Progress</option><option value="completed">Completed</option></select>
+      </div>
     </div>
     <div class="modal-btns">
-      <button class="cancelbtn" onclick="closeModal('repairModal')">Cancel</button>
-      <button class="savebtn" onclick="saveRepair()">💾 Save Job</button>
+      <button class="m-cancel" onclick="closeModal('repairModal')">Cancel</button>
+      <button class="m-save" onclick="saveRepair()">💾 Save Job</button>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
-<div class="save-ind" id="saveInd">💾 Saved!</div>
+<div class="saved-ind" id="savedInd">💾 Saved!</div>
 
 <script>
-// ── DATA ──
-const DEF={phones:[{id:1,name:'Samsung Galaxy A55',brand:'Samsung',storage:'128GB',condition:'new',price:85000,warranty:'1 Year',stock:3,featured:true,description:'Brand new sealed box',image:'',createdAt:'2024-11-01'},{id:2,name:'iPhone 15',brand:'Apple',storage:'128GB',condition:'new',price:195000,warranty:'1 Year',stock:2,featured:true,description:'Brand new with box',image:'',createdAt:'2024-11-01'},{id:3,name:'Samsung S23',brand:'Samsung',storage:'256GB',condition:'used',price:95000,warranty:'3 Months',stock:1,featured:false,description:'Excellent condition',image:'',createdAt:'2024-11-02'},{id:4,name:'Redmi Note 13',brand:'Xiaomi',storage:'128GB',condition:'new',price:45000,warranty:'1 Year',stock:5,featured:true,description:'Brand new',image:'',createdAt:'2024-11-02'}],inquiries:[{id:1,name:'Kamal Perera',phone:'0771234567',service:'Display Replacement',message:'Screen cracked',status:'pending',createdAt:'2024-11-01'},{id:2,name:'Nimal Silva',phone:'0712345678',service:'Buy a Phone',message:'Samsung under 80k',status:'resolved',createdAt:'2024-11-02'}],repairs:[{id:1,customerName:'Kamal Perera',customerPhone:'0771234567',deviceType:'Mobile',deviceModel:'Samsung A32',issue:'Display broken',status:'in-progress',estimatedCost:4500,createdAt:'2024-11-01'},{id:2,customerName:'Saman Kumara',customerPhone:'0757654321',deviceType:'Laptop',deviceModel:'Dell Inspiron',issue:'Not charging',status:'pending',estimatedCost:3500,createdAt:'2024-11-03'}],nextId:{phones:5,inquiries:3,repairs:3}};
+// ── CREDENTIALS ──
+const CREDS = {user:'jenext', pass:'janith2005'};
 
-function loadData(){try{const s=localStorage.getItem('jenext_data');return s?JSON.parse(s):JSON.parse(JSON.stringify(DEF));}catch{return JSON.parse(JSON.stringify(DEF));}}
-function saveData(){localStorage.setItem('jenext_data',JSON.stringify(localData));const i=document.getElementById('saveInd');i.classList.add('show');setTimeout(()=>i.classList.remove('show'),1800);}
-let localData=loadData();
-let token=localStorage.getItem('jenext_token')||'';
-let currentImageData='';
+// ── DEFAULT DATA ──
+const DEF_DATA = {
+  nid:{phones:5,repairs:3},
+  phones:[
+    {id:1,name:'Samsung Galaxy A55',brand:'Samsung',storage:'128GB',condition:'new',price:85000,stock:3,warranty:'1 Year',description:'Brand new sealed',featured:true,image:'',date:'2026-01-01'},
+    {id:2,name:'iPhone 15',brand:'Apple',storage:'128GB',condition:'new',price:195000,stock:2,warranty:'1 Year',description:'Brand new with box',featured:true,image:'',date:'2026-01-02'},
+    {id:3,name:'Samsung S23',brand:'Samsung',storage:'256GB',condition:'used',price:95000,stock:1,warranty:'3 Months',description:'Excellent condition',featured:false,image:'',date:'2026-01-03'},
+    {id:4,name:'Redmi Note 13',brand:'Xiaomi',storage:'128GB',condition:'new',price:45000,stock:5,warranty:'1 Year',description:'Brand new',featured:true,image:'',date:'2026-01-04'},
+  ],
+  inquiries:[
+    {id:1,name:'Kamal Perera',phone:'0771234567',service:'Display Replacement',message:'Screen cracked badly',status:'pending',date:'2026-03-01'},
+    {id:2,name:'Nimal Silva',phone:'0712345678',service:'Buy a Phone',message:'Looking for Samsung under 80k',status:'resolved',date:'2026-03-05'},
+  ],
+  repairs:[
+    {id:1,customer:'Kamal Perera',phone:'0771234567',device:'Mobile',model:'Samsung A32',issue:'Display broken',status:'in-progress',cost:4500,date:'2026-03-01'},
+    {id:2,customer:'Saman Kumara',phone:'0757654321',device:'Laptop',model:'Dell Inspiron',issue:'Not charging',status:'pending',cost:3500,date:'2026-03-05'},
+  ]
+};
+
+// ── STATE ──
+let DB = {};
+let imgData = '';
+
+function loadDB(){
+  try{
+    const s = localStorage.getItem('jenext_db');
+    DB = s ? JSON.parse(s) : JSON.parse(JSON.stringify(DEF_DATA));
+  }catch(e){
+    DB = JSON.parse(JSON.stringify(DEF_DATA));
+  }
+}
+function saveDB(){
+  localStorage.setItem('jenext_db', JSON.stringify(DB));
+  const el = document.getElementById('savedInd');
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+// ── AUTH ──
+function login(){
+  const u = document.getElementById('u').value.trim().toLowerCase();
+  const p = document.getElementById('p').value;
+  if(u === CREDS.user && p === CREDS.pass){
+    sessionStorage.setItem('jx_auth','1');
+    showAdmin();
+  } else {
+    const e = document.getElementById('lerr');
+    e.style.display = 'block';
+    setTimeout(()=> e.style.display='none', 3000);
+  }
+}
+function logout(){
+  sessionStorage.removeItem('jx_auth');
+  document.getElementById('adminPage').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('u').value = '';
+  document.getElementById('p').value = '';
+}
+function showAdmin(){
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('adminPage').style.display = 'block';
+  loadDB();
+  renderDash();
+}
+
+// Check session on load
+window.addEventListener('DOMContentLoaded', ()=>{
+  if(sessionStorage.getItem('jx_auth') === '1'){
+    showAdmin();
+  }
+});
 
 // ── SIDEBAR ──
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('open');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('open');}
+function toggleSB(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sbOverlay').classList.toggle('show');
+}
+function closeSB(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sbOverlay').classList.remove('show');
+}
 
-// ── LOGIN ──
-function doLogin(){const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value;if(u.toLowerCase().trim()==='jenext'&&p==='janith2005'){token='demo';localStorage.setItem('jenext_token',token);document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='flex';document.getElementById('adminName').textContent='Jenext Admin';loadDashboard();}else{const e=document.getElementById('loginError');e.style.display='block';setTimeout(()=>e.style.display='none',3000);}}
-function doLogout(){localStorage.removeItem('jenext_token');token='';document.getElementById('adminApp').style.display='none';document.getElementById('loginScreen').style.display='flex';}
-if(token){document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='flex';document.getElementById('adminName').textContent='Jenext Admin';loadDashboard();}
-
-// ── NAV ──
-function showPage(p,el){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');if(el)el.classList.add('active');closeSidebar();if(p==='dashboard')loadDashboard();if(p==='phones')renderPhones();if(p==='inquiries')renderInquiries();if(p==='repairs')renderRepairs();}
+// ── PAGES ──
+function showPage(name, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(el) el.classList.add('active');
+  closeSB();
+  if(name==='dash') renderDash();
+  if(name==='phones') renderPhones();
+  if(name==='inquiries') renderInq();
+  if(name==='repairs') renderRep();
+}
 
 // ── DASHBOARD ──
-function loadDashboard(){const d=localData;document.getElementById('s-phones').textContent=d.phones.length;document.getElementById('s-stock').textContent=d.phones.reduce((s,p)=>s+p.stock,0);document.getElementById('s-inquiries').textContent=d.inquiries.length;document.getElementById('s-pending').textContent=d.inquiries.filter(i=>i.status==='pending').length;document.getElementById('s-repairs').textContent=d.repairs.length;document.getElementById('s-active').textContent=d.repairs.filter(r=>r.status==='in-progress').length;const rec=d.inquiries.slice(0,5);document.getElementById('recentInq').innerHTML=rec.length?`<table><thead><tr><th>Name</th><th>Phone</th><th>Service</th><th>Status</th><th>Date</th></tr></thead><tbody>${rec.map(i=>`<tr><td>${i.name}</td><td>${i.phone}</td><td>${i.service}</td><td><span class="badge b-${i.status}">${i.status}</span></td><td style="color:var(--ink3);font-size:0.82rem">${(i.createdAt||'').split('T')[0]}</td></tr>`).join('')}</tbody></table>`:'<div class="empty"><div class="empty-ico">💬</div>No inquiries yet.</div>';}
+function renderDash(){
+  document.getElementById('s-phones').textContent = DB.phones.length;
+  document.getElementById('s-stock').textContent = DB.phones.reduce((s,p)=>s+p.stock,0);
+  document.getElementById('s-inq').textContent = DB.inquiries.length;
+  document.getElementById('s-pend').textContent = DB.inquiries.filter(i=>i.status==='pending').length;
+  document.getElementById('s-rep').textContent = DB.repairs.length;
+  document.getElementById('s-active').textContent = DB.repairs.filter(r=>r.status==='in-progress').length;
+  const rows = DB.inquiries.slice(0,5).map(i=>`
+    <tr><td><strong>${i.name}</strong></td><td>${i.phone}</td><td>${i.service}</td>
+    <td><span class="badge b-${i.status}">${i.status}</span></td><td style="color:var(--ink3);font-size:.8rem">${i.date||''}</td></tr>`).join('');
+  document.getElementById('dashInq').innerHTML = rows
+    ? `<table><thead><tr><th>Name</th><th>Phone</th><th>Service</th><th>Status</th><th>Date</th></tr></thead><tbody>${rows}</tbody></table>`
+    : '<div class="empty"><div class="empty-ico">💬</div>No inquiries yet</div>';
+}
 
 // ── PHONES ──
-function thumbHtml(p){if(p.image&&p.image.startsWith('data:')){return `<div class="ph-thumb"><img src="${p.image}" alt="${p.name}"/></div>`;}return `<div class="ph-thumb">${p.condition==='new'?'📱':'📱'}</div>`;}
+function renderPhones(){
+  const rows = DB.phones.map(p=>`
+    <tr>
+      <td><div class="ph-cell">
+        <div class="ph-thumb">${p.image?`<img src="${p.image}"/>`:'📱'}</div>
+        <div><strong>${p.name}</strong><br/><small style="color:var(--ink3)">${p.brand} ${p.storage}</small></div>
+      </div></td>
+      <td><span class="badge b-${p.condition}">${p.condition==='new'?'Brand New':'Used'}</span></td>
+      <td style="font-family:'Outfit',sans-serif;font-weight:900;color:var(--accent)">Rs. ${p.price.toLocaleString()}</td>
+      <td style="color:${p.stock>0?'var(--green)':'var(--red)'};font-weight:700">${p.stock}</td>
+      <td>${p.featured?'✅':'-'}</td>
+      <td><div class="act">
+        <button class="ebtn" onclick="openPhoneModal(${p.id})">✏️ Edit</button>
+        <button class="dbtn" onclick="delPhone(${p.id})">🗑️</button>
+      </div></td>
+    </tr>`).join('');
+  document.getElementById('phonesTable').innerHTML = rows
+    ? `<table><thead><tr><th>Phone</th><th>Condition</th><th>Price</th><th>Stock</th><th>Featured</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`
+    : '<div class="empty"><div class="empty-ico">📱</div>No phones yet. Click Add Phone.</div>';
+}
 
-function renderPhones(){const phones=localData.phones;document.getElementById('phonesTable').innerHTML=phones.length?`<table><thead><tr><th>Photo</th><th>Name</th><th>Condition</th><th>Price</th><th>Stock</th><th>Featured</th><th>Actions</th></tr></thead><tbody>${phones.map(p=>`<tr><td><div class="ph-info">${thumbHtml(p)}</div></td><td><strong>${p.name}</strong><br/><small style="color:var(--ink3)">${p.brand||''} ${p.storage||''}</small></td><td><span class="badge b-${p.condition}">${p.condition==='new'?'Brand New':'Used'}</span></td><td style="font-family:'Outfit',sans-serif;font-weight:800;color:var(--accent);font-size:1rem;white-space:nowrap">Rs. ${(p.price||0).toLocaleString()}</td><td><span style="color:${p.stock>0?'var(--green)':'var(--red)';}">${p.stock}</span></td><td>${p.featured?'✅':'—'}</td><td><div class="act-btns"><button class="ebtn" onclick="openPhoneModal(${p.id})">✏️ Edit</button><button class="dbtn" onclick="deletePhone(${p.id})">🗑️</button></div></td></tr>`).join('')}</tbody></table>`:'<div class="empty"><div class="empty-ico">📱</div>No phones added yet.</div>';}
+function openPhoneModal(id){
+  imgData=''; clearImgUI();
+  if(id){
+    const p = DB.phones.find(x=>x.id===id);
+    document.getElementById('pmTitle').textContent = '✏️ Edit Phone';
+    document.getElementById('pmId').value = id;
+    document.getElementById('pmName').value = p.name;
+    document.getElementById('pmBrand').value = p.brand||'';
+    document.getElementById('pmStorage').value = p.storage||'';
+    document.getElementById('pmCond').value = p.condition;
+    document.getElementById('pmPrice').value = p.price;
+    document.getElementById('pmStock').value = p.stock;
+    document.getElementById('pmWarranty').value = p.warranty||'';
+    document.getElementById('pmDesc').value = p.description||'';
+    document.getElementById('pmFeatured').checked = !!p.featured;
+    if(p.image){ imgData=p.image; showImgPreview(p.image); }
+  } else {
+    document.getElementById('pmTitle').textContent = '📱 Add Phone';
+    document.getElementById('pmId').value = '';
+    ['pmName','pmBrand','pmStorage','pmPrice','pmWarranty','pmDesc'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('pmStock').value=1;
+    document.getElementById('pmCond').value='new';
+    document.getElementById('pmFeatured').checked=false;
+  }
+  document.getElementById('phoneModal').classList.add('open');
+}
+function savePhone(){
+  const id = document.getElementById('pmId').value;
+  const name = document.getElementById('pmName').value.trim();
+  const price = parseInt(document.getElementById('pmPrice').value)||0;
+  if(!name||!price){ toast('❌ Name and price required!'); return; }
+  const obj = {
+    name, brand:document.getElementById('pmBrand').value.trim(),
+    storage:document.getElementById('pmStorage').value.trim(),
+    condition:document.getElementById('pmCond').value,
+    price, stock:parseInt(document.getElementById('pmStock').value)||1,
+    warranty:document.getElementById('pmWarranty').value.trim(),
+    description:document.getElementById('pmDesc').value.trim(),
+    featured:document.getElementById('pmFeatured').checked,
+    image:imgData, date:new Date().toISOString().split('T')[0]
+  };
+  if(id){
+    const idx = DB.phones.findIndex(p=>p.id===parseInt(id));
+    if(!obj.image && DB.phones[idx].image) obj.image = DB.phones[idx].image;
+    DB.phones[idx] = {...DB.phones[idx], ...obj};
+    toast('✅ Phone updated!');
+  } else {
+    DB.phones.unshift({id:DB.nid.phones++, ...obj});
+    toast('✅ Phone added!');
+  }
+  saveDB(); closeModal('phoneModal'); renderPhones();
+}
+function delPhone(id){
+  if(!confirm('Delete this phone?')) return;
+  DB.phones = DB.phones.filter(p=>p.id!==id);
+  saveDB(); renderPhones(); toast('🗑️ Deleted!');
+}
 
-function openPhoneModal(id){const modal=document.getElementById('phoneModal');currentImageData='';clearImageUI();if(id){const p=localData.phones.find(x=>x.id===id);document.getElementById('phoneModalTitle').textContent='✏️ Edit Phone';document.getElementById('phoneId').value=id;document.getElementById('phoneName').value=p.name;document.getElementById('phoneBrand').value=p.brand||'';document.getElementById('phoneStorage').value=p.storage||'';document.getElementById('phoneCondition').value=p.condition;document.getElementById('phonePrice').value=p.price;document.getElementById('phoneStock').value=p.stock;document.getElementById('phoneWarranty').value=p.warranty||'';document.getElementById('phoneDesc').value=p.description||'';document.getElementById('phoneFeatured').checked=!!p.featured;if(p.image&&p.image.startsWith('data:')){currentImageData=p.image;showImagePreview(p.image);}}else{document.getElementById('phoneModalTitle').textContent='📱 Add Phone';document.getElementById('phoneId').value='';['phoneName','phoneBrand','phoneStorage','phonePrice','phoneWarranty','phoneDesc'].forEach(id=>document.getElementById(id).value='');document.getElementById('phoneStock').value=1;document.getElementById('phoneCondition').value='new';document.getElementById('phoneFeatured').checked=false;}modal.classList.add('open');}
-
-// ── IMAGE UPLOAD ──
-function handleImageUpload(e){const file=e.target.files[0];if(!file)return;if(file.size>2*1024*1024){showToast('❌ Image too large! Max 2MB');return;}const reader=new FileReader();reader.onload=ev=>{currentImageData=ev.target.result;showImagePreview(ev.target.result);};reader.readAsDataURL(file);}
-function showImagePreview(src){const prev=document.getElementById('imgPreview');const ph=document.getElementById('imgPlaceholder');const area=document.getElementById('imgUploadArea');const clrBtn=document.getElementById('imgClearBtn');prev.src=src;prev.classList.add('show');ph.style.display='none';area.classList.add('has-img');clrBtn.classList.add('show');}
-function clearImage(e){if(e){e.stopPropagation();e.preventDefault();}currentImageData='';clearImageUI();document.getElementById('phoneImageFile').value='';}
-function clearImageUI(){const prev=document.getElementById('imgPreview');const ph=document.getElementById('imgPlaceholder');const area=document.getElementById('imgUploadArea');const clrBtn=document.getElementById('imgClearBtn');prev.src='';prev.classList.remove('show');ph.style.display='block';area.classList.remove('has-img');clrBtn.classList.remove('show');}
-
-function savePhone(){const id=document.getElementById('phoneId').value;const phone={name:document.getElementById('phoneName').value.trim(),brand:document.getElementById('phoneBrand').value.trim(),storage:document.getElementById('phoneStorage').value.trim(),condition:document.getElementById('phoneCondition').value,price:parseInt(document.getElementById('phonePrice').value)||0,stock:parseInt(document.getElementById('phoneStock').value)||1,warranty:document.getElementById('phoneWarranty').value.trim(),description:document.getElementById('phoneDesc').value.trim(),featured:document.getElementById('phoneFeatured').checked,image:currentImageData};if(!phone.name||!phone.price){showToast('❌ Name and price required!');return;}if(id){const idx=localData.phones.findIndex(p=>p.id===parseInt(id));if(!phone.image&&localData.phones[idx].image)phone.image=localData.phones[idx].image;localData.phones[idx]={...localData.phones[idx],...phone};showToast('✅ Phone updated!');}else{localData.phones.unshift({id:localData.nextId.phones++,...phone,createdAt:new Date().toISOString()});showToast('✅ Phone added!');}saveData();closeModal('phoneModal');renderPhones();}
-
-function deletePhone(id){if(!confirm('Delete this phone?'))return;localData.phones=localData.phones.filter(p=>p.id!==id);saveData();renderPhones();showToast('🗑️ Phone deleted!');}
+// ── IMAGE ──
+function handleImg(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  if(file.size > 2*1024*1024){ toast('❌ Image too large! Max 2MB'); return; }
+  const r = new FileReader();
+  r.onload = ev => { imgData=ev.target.result; showImgPreview(ev.target.result); };
+  r.readAsDataURL(file);
+}
+function showImgPreview(src){
+  const prev=document.getElementById('imgPrev');
+  prev.src=src; prev.classList.add('show');
+  document.getElementById('imgPh').style.display='none';
+  document.getElementById('imgArea').classList.add('has-img');
+  document.getElementById('imgClear').classList.add('show');
+}
+function clearImg(e){ e.stopPropagation(); e.preventDefault(); imgData=''; clearImgUI(); document.getElementById('imgFile').value=''; }
+function clearImgUI(){
+  document.getElementById('imgPrev').classList.remove('show');
+  document.getElementById('imgPh').style.display='block';
+  document.getElementById('imgArea').classList.remove('has-img');
+  document.getElementById('imgClear').classList.remove('show');
+}
 
 // ── INQUIRIES ──
-function renderInquiries(){const inq=localData.inquiries;document.getElementById('inquiriesTable').innerHTML=inq.length?`<table><thead><tr><th>Name</th><th>Phone</th><th>Service</th><th>Message</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody>${inq.map(i=>`<tr><td><strong>${i.name}</strong></td><td style="white-space:nowrap">${i.phone}</td><td style="white-space:nowrap">${i.service}</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink3)">${i.message||'—'}</td><td><span class="badge b-${i.status}">${i.status}</span></td><td style="color:var(--ink3);font-size:0.8rem;white-space:nowrap">${(i.createdAt||'').split('T')[0]}</td><td><button class="ebtn" onclick="toggleInq(${i.id})">${i.status==='pending'?'✅ Resolve':'🔄 Reopen'}</button></td></tr>`).join('')}</tbody></table>`:'<div class="empty"><div class="empty-ico">💬</div>No inquiries.</div>';}
-function toggleInq(id){const i=localData.inquiries.find(x=>x.id===id);if(!i)return;i.status=i.status==='pending'?'resolved':'pending';saveData();renderInquiries();showToast('✅ Updated!');}
+function renderInq(){
+  const rows = DB.inquiries.map(i=>`
+    <tr><td><strong>${i.name}</strong></td><td>${i.phone}</td><td>${i.service}</td>
+    <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink3)">${i.message||'-'}</td>
+    <td><span class="badge b-${i.status}">${i.status}</span></td>
+    <td style="color:var(--ink3);font-size:.78rem">${i.date||''}</td>
+    <td><div class="act">
+      <button class="${i.status==='pending'?'rbtn':'ebtn'}" onclick="toggleInq(${i.id})">${i.status==='pending'?'✅ Resolve':'🔄 Reopen'}</button>
+      <button class="dbtn" onclick="delInq(${i.id})">🗑️</button>
+    </div></td></tr>`).join('');
+  document.getElementById('inqTable').innerHTML = rows
+    ? `<table><thead><tr><th>Name</th><th>Phone</th><th>Service</th><th>Message</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>`
+    : '<div class="empty"><div class="empty-ico">💬</div>No inquiries yet</div>';
+}
+function toggleInq(id){
+  const i = DB.inquiries.find(x=>x.id===id);
+  if(!i) return;
+  i.status = i.status==='pending' ? 'resolved' : 'pending';
+  saveDB(); renderInq(); toast('✅ Status updated!');
+}
+function delInq(id){
+  if(!confirm('Delete inquiry?')) return;
+  DB.inquiries = DB.inquiries.filter(i=>i.id!==id);
+  saveDB(); renderInq(); toast('🗑️ Deleted!');
+}
 
 // ── REPAIRS ──
-function renderRepairs(){const rs=localData.repairs;document.getElementById('repairsTable').innerHTML=rs.length?`<table><thead><tr><th>Customer</th><th>Device</th><th>Issue</th><th>Cost</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rs.map(r=>`<tr><td><strong>${r.customerName}</strong><br/><small style="color:var(--ink3)">${r.customerPhone||''}</small></td><td style="white-space:nowrap">${r.deviceType} — ${r.deviceModel}</td><td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink3)">${r.issue||'—'}</td><td style="font-family:'Outfit',sans-serif;font-weight:700;color:var(--accent);white-space:nowrap">Rs. ${(r.estimatedCost||0).toLocaleString()}</td><td><span class="badge b-${r.status==='in-progress'?'progress':r.status}">${r.status}</span></td><td style="color:var(--ink3);font-size:0.8rem;white-space:nowrap">${(r.createdAt||'').split('T')[0]}</td><td><div class="act-btns"><button class="ebtn" onclick="openRepairModal(${r.id})">✏️</button><button class="dbtn" onclick="deleteRepair(${r.id})">🗑️</button></div></td></tr>`).join('')}</tbody></table>`:'<div class="empty"><div class="empty-ico">🔧</div>No repair jobs.</div>';}
-
-function openRepairModal(id){const modal=document.getElementById('repairModal');if(id){const r=localData.repairs.find(x=>x.id===id);document.getElementById('repairModalTitle').textContent='✏️ Edit Repair Job';document.getElementById('repairId').value=id;document.getElementById('repairCustomer').value=r.customerName;document.getElementById('repairPhone').value=r.customerPhone||'';document.getElementById('repairDevice').value=r.deviceType;document.getElementById('repairModel').value=r.deviceModel;document.getElementById('repairIssue').value=r.issue||'';document.getElementById('repairCost').value=r.estimatedCost||'';document.getElementById('repairStatus').value=r.status;}else{document.getElementById('repairModalTitle').textContent='🔧 Add Repair Job';document.getElementById('repairId').value='';['repairCustomer','repairPhone','repairModel','repairIssue','repairCost'].forEach(id=>document.getElementById(id).value='');document.getElementById('repairStatus').value='pending';}modal.classList.add('open');}
-function saveRepair(){const id=document.getElementById('repairId').value;const repair={customerName:document.getElementById('repairCustomer').value.trim(),customerPhone:document.getElementById('repairPhone').value.trim(),deviceType:document.getElementById('repairDevice').value,deviceModel:document.getElementById('repairModel').value.trim(),issue:document.getElementById('repairIssue').value.trim(),estimatedCost:parseInt(document.getElementById('repairCost').value)||0,status:document.getElementById('repairStatus').value};if(!repair.customerName){showToast('❌ Customer name required!');return;}if(id){const idx=localData.repairs.findIndex(r=>r.id===parseInt(id));localData.repairs[idx]={...localData.repairs[idx],...repair};showToast('✅ Updated!');}else{localData.repairs.unshift({id:localData.nextId.repairs++,...repair,createdAt:new Date().toISOString()});showToast('✅ Repair added!');}saveData();closeModal('repairModal');renderRepairs();}
-function deleteRepair(id){if(!confirm('Delete repair job?'))return;localData.repairs=localData.repairs.filter(r=>r.id!==id);saveData();renderRepairs();showToast('🗑️ Deleted!');}
+function renderRep(){
+  const rows = DB.repairs.map(r=>`
+    <tr><td><strong>${r.customer}</strong><br/><small style="color:var(--ink3)">${r.phone||''}</small></td>
+    <td style="white-space:nowrap">${r.device} – ${r.model}</td>
+    <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink3)">${r.issue||'-'}</td>
+    <td style="font-family:'Outfit',sans-serif;font-weight:900;color:var(--accent);white-space:nowrap">Rs. ${(r.cost||0).toLocaleString()}</td>
+    <td><span class="badge b-${r.status}">${r.status}</span></td>
+    <td style="color:var(--ink3);font-size:.78rem">${r.date||''}</td>
+    <td><div class="act">
+      <button class="ebtn" onclick="openRepairModal(${r.id})">✏️</button>
+      <button class="dbtn" onclick="delRep(${r.id})">🗑️</button>
+    </div></td></tr>`).join('');
+  document.getElementById('repTable').innerHTML = rows
+    ? `<table><thead><tr><th>Customer</th><th>Device</th><th>Issue</th><th>Cost</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`
+    : '<div class="empty"><div class="empty-ico">🔧</div>No repair jobs yet</div>';
+}
+function openRepairModal(id){
+  if(id){
+    const r = DB.repairs.find(x=>x.id===id);
+    document.getElementById('rmTitle').textContent = '✏️ Edit Repair';
+    document.getElementById('rmId').value = id;
+    document.getElementById('rmName').value = r.customer;
+    document.getElementById('rmPhone').value = r.phone||'';
+    document.getElementById('rmDev').value = r.device;
+    document.getElementById('rmModel').value = r.model;
+    document.getElementById('rmIssue').value = r.issue||'';
+    document.getElementById('rmCost').value = r.cost||'';
+    document.getElementById('rmStatus').value = r.status;
+  } else {
+    document.getElementById('rmTitle').textContent = '🔧 Add Repair Job';
+    document.getElementById('rmId').value = '';
+    ['rmName','rmPhone','rmModel','rmIssue','rmCost'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('rmStatus').value='pending';
+  }
+  document.getElementById('repairModal').classList.add('open');
+}
+function saveRepair(){
+  const id = document.getElementById('rmId').value;
+  const customer = document.getElementById('rmName').value.trim();
+  if(!customer){ toast('❌ Customer name required!'); return; }
+  const obj = {
+    customer, phone:document.getElementById('rmPhone').value.trim(),
+    device:document.getElementById('rmDev').value,
+    model:document.getElementById('rmModel').value.trim(),
+    issue:document.getElementById('rmIssue').value.trim(),
+    cost:parseInt(document.getElementById('rmCost').value)||0,
+    status:document.getElementById('rmStatus').value,
+    date:new Date().toISOString().split('T')[0]
+  };
+  if(id){
+    const idx = DB.repairs.findIndex(r=>r.id===parseInt(id));
+    DB.repairs[idx] = {...DB.repairs[idx], ...obj};
+    toast('✅ Updated!');
+  } else {
+    DB.repairs.unshift({id:DB.nid.repairs++, ...obj});
+    toast('✅ Repair added!');
+  }
+  saveDB(); closeModal('repairModal'); renderRep();
+}
+function delRep(id){
+  if(!confirm('Delete repair job?')) return;
+  DB.repairs = DB.repairs.filter(r=>r.id!==id);
+  saveDB(); renderRep(); toast('🗑️ Deleted!');
+}
 
 // ── UTILS ──
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
-document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',function(e){ if(e.target===this) this.classList.remove('open'); }));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open')); });
 </script>
 </body>
 </html>
