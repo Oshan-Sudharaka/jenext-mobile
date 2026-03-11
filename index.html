@@ -555,28 +555,79 @@ function sendWhatsApp(){
   setTimeout(()=>{window.open(`https://wa.me/94718986024?text=${text}`,'_blank');document.getElementById('successMsg').style.display='none';},900);
 }
 
-// Load phone images from admin localStorage
-function loadImgs(){
-  try{
-    const d=JSON.parse(localStorage.getItem('jenext_data')||'{}');
-    if(!d.phones)return;
-    d.phones.forEach((p,i)=>{
-      const el=document.getElementById('pimg-'+(i+1));
-      if(!el||!p.image||!p.image.startsWith('data:'))return;
-      const badge=el.querySelector('.cbadge');
-      el.innerHTML='';
-      const img=document.createElement('img');
-      img.src=p.image;img.alt=p.name;
-      img.style.cssText='width:100%;height:100%;object-fit:contain;padding:10px';
-      img.onerror=()=>{el.innerHTML='<span class="pc-emoji">📱</span>';if(badge)el.appendChild(badge);};
-      el.appendChild(img);
-      if(badge)el.appendChild(badge);
-      const si=document.getElementById('sc'+(i+1));
-      if(si){si.innerHTML='';const si2=document.createElement('img');si2.src=p.image;si2.alt=p.name;si2.style.cssText='width:100%;height:100%;object-fit:contain';si.appendChild(si2);}
-    });
-  }catch(e){}
+// ── DYNAMIC PHONES FROM ADMIN ──
+const STORAGE_KEY='jenext_data';
+
+function getDB(){
+  try{const s=localStorage.getItem(STORAGE_KEY);return s?JSON.parse(s):null;}catch(e){return null;}
 }
-loadImgs();
+
+function condBadge(p){
+  if(p.oos||p.stock===0) return '<span class="cbadge" style="background:#fee2e2;color:#dc2626">Out of Stock</span>';
+  if(p.condition==='used') return '<span class="cbadge cused">Used</span>';
+  if(p.featured) return '<span class="cbadge chot">🔥 Hot</span>';
+  return '<span class="cbadge cnew">Brand New</span>';
+}
+
+function buildPhoneCard(p){
+  const imgHtml = p.image && p.image.startsWith('data:')
+    ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain;padding:10px"/>`
+    : '<span class="pc-emoji">📱</span>';
+  const waText = encodeURIComponent(p.name+' ගැන details දෙන්න');
+  const oosStyle = (p.oos||p.stock===0) ? 'opacity:.55;pointer-events:none' : '';
+  return `<div class="pc reveal" data-condition="${p.condition}" style="${oosStyle}">
+    <div class="pc-img" style="position:relative">
+      ${imgHtml}${condBadge(p)}
+      ${(p.oos||p.stock===0)?'<div style="position:absolute;inset:0;background:rgba(220,38,38,.06);display:flex;align-items:center;justify-content:center"><span style="background:#dc2626;color:#fff;font-size:.7rem;font-weight:800;padding:4px 12px;border-radius:100px">OUT OF STOCK</span></div>':''}
+    </div>
+    <div class="pc-body">
+      <div class="pc-brand">${p.brand||''}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-specs">
+        ${p.storage?`<span class="pspec">${p.storage}</span>`:''}
+        ${p.network?`<span class="pspec">${p.network}</span>`:''}
+        ${p.condition==='new'?'<span class="pspec">Sealed</span>':'<span class="pspec">Good Cond.</span>'}
+      </div>
+      <div class="pc-price">රු ${p.price.toLocaleString()}</div>
+      <div class="pc-warranty"><b>✅</b> ${p.warranty||'Warranty Included'}</div>
+      ${!(p.oos||p.stock===0)?`<a class="pc-cta" href="https://wa.me/94718986024?text=${waText}" target="_blank">💬 Inquire Now</a>`:'<div class="pc-cta" style="background:#fef2f2;color:#dc2626;border-color:rgba(220,38,38,.2);cursor:default">❌ Out of Stock</div>'}
+    </div>
+  </div>`;
+}
+
+function buildShowcaseItem(p, idx){
+  const imgHtml = p.image && p.image.startsWith('data:')
+    ? `<img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:contain"/>`
+    : '<span class="hc-emoji">📱</span>';
+  return `<div class="hc-item" id="sc${idx}">
+    <div class="hc-img">${imgHtml}</div>
+    <div class="hc-name">${p.name.replace('Samsung ','').replace('iPhone','iPhone').substring(0,14)}</div>
+    <div class="hc-price">රු ${p.price.toLocaleString()}</div>
+  </div>`;
+}
+
+function loadFromAdmin(){
+  const db = getDB();
+  if(!db || !db.phones || db.phones.length===0) return;
+
+  // Render phones grid
+  const grid = document.getElementById('phonesGrid');
+  if(grid){
+    grid.innerHTML = db.phones.map(p=>buildPhoneCard(p)).join('');
+    // Re-attach reveal observer
+    grid.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  }
+
+  // Render hero showcase - featured phones first, max 4
+  const featured = [...db.phones.filter(p=>p.featured && !p.oos && p.stock>0),
+                    ...db.phones.filter(p=>!p.featured && !p.oos && p.stock>0)].slice(0,4);
+  const hcGrid = document.querySelector('.hc-grid');
+  if(hcGrid && featured.length>0){
+    hcGrid.innerHTML = featured.map((p,i)=>buildShowcaseItem(p,i+1)).join('');
+  }
+}
+
+loadFromAdmin();
 </script>
 </body>
 </html>
