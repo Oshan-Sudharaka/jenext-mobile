@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Jenext Mobile – Admin Panel</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff5c1a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='900' fill='white'%3EJ%3C/text%3E%3C/svg%3E"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -160,7 +161,7 @@ tr:hover td{background:#fafcff}
 <!-- LOGIN -->
 <div id="loginPage">
   <div class="lbox">
-    <div class="l-logo"><span style="font-size:1.8rem">📱</span> JENEXT<span>MOBILE</span></div>
+    <div class="l-logo"><span style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;background:linear-gradient(135deg,#ff5c1a,#ff8c42);border-radius:11px;font-family:'Outfit',sans-serif;font-size:1.4rem;font-weight:900;color:#fff;box-shadow:0 3px 12px rgba(255,92,26,.3)">J</span> JENEXT<span>MOBILE</span></div>
     <div class="l-sub">🔐 Admin Panel</div>
     <input class="l-inp" type="text" id="u" placeholder="Username" autocomplete="username"/>
     <input class="l-inp" type="password" id="p" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/>
@@ -172,14 +173,14 @@ tr:hover td{background:#fafcff}
 <!-- ADMIN -->
 <div id="adminPage">
   <div class="topbar">
-    <div class="tb-logo">📱 JENEXT<span>MOBILE</span></div>
+    <div class="tb-logo" style="display:flex;align-items:center;gap:8px"><span style="width:28px;height:28px;background:linear-gradient(135deg,#ff5c1a,#ff8c42);border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:900;color:#fff">J</span> JENEXT<span>MOBILE</span></div>
     <button class="tb-ham" onclick="toggleSB()">☰</button>
   </div>
   <div class="sb-ov" id="sbOv" onclick="closeSB()"></div>
 
   <div class="sidebar" id="sidebar">
     <div class="sb-logo">
-      <div class="sb-logo-mark">📱</div>
+      <div class="sb-logo-mark"><span style="font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:900;color:#fff;letter-spacing:-1px">J</span></div>
       <div><div class="sb-logo-text">JENEXT<span>MOBILE</span></div><div class="sb-logo-sub">Admin Panel</div></div>
     </div>
     <nav class="sb-nav">
