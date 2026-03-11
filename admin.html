@@ -11,8 +11,8 @@
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
 /* LOGIN */
-#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#eef2f7,#e0eaf5)}
-.login-box{background:#fff;border:1.5px solid var(--border);border-radius:22px;padding:40px 36px;width:100%;max-width:400px;text-align:center;box-shadow:0 8px 40px rgba(255,107,43,0.08)}
+#loginScreen{min-height:100vh;display:flex!important;align-items:center;justify-content:center;padding:20px;background:linear-gradient(160deg,#f0f4fa,#e8f0fb,#f4f0fa)}
+.login-box{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,0.9);border-radius:22px;padding:40px 36px;width:100%;max-width:400px;text-align:center;box-shadow:0 16px 48px rgba(13,23,38,0.12)}
 .llogo{font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:800;margin-bottom:4px}
 .llogo span{color:var(--accent)}
 .lsub{color:var(--ink3);font-size:0.84rem;margin-bottom:28px}
@@ -23,7 +23,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .lerr{color:var(--red);font-size:0.83rem;margin-top:9px;display:none}
 
 /* APP */
-#adminApp{display:none}
+#adminApp{min-height:100vh}
 .topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;height:56px;background:#fff;border-bottom:1.5px solid var(--border);align-items:center;justify-content:space-between;padding:0 16px;box-shadow:var(--shadow)}
 .tb-logo{font-family:'Outfit',sans-serif;font-size:1.15rem;font-weight:800}
 .tb-logo span{color:var(--accent)}
@@ -149,12 +149,12 @@ tr:hover td{background:#f0f5fa}
     <input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/>
     <button class="lbtn" onclick="doLogin()">Login →</button>
     <div class="lerr" id="loginError">❌ Invalid credentials</div>
-    <div style="margin-top:13px;color:var(--ink3);font-size:0.76rem">Login: jenext mobile / janith2005</div>
+    <div style="margin-top:13px;color:var(--ink3);font-size:0.76rem">Username: <b>jenext</b> &nbsp;|&nbsp; Password: <b>janith2005</b></div>
   </div>
 </div>
 
 <!-- ADMIN APP -->
-<div id="adminApp">
+<div id="adminApp" style="display:none;min-height:100vh">
   <div class="topbar" id="topbar">
     <div class="tb-logo">JENEXT<span>MOBILE</span></div>
     <button class="tb-btn" onclick="toggleSidebar()">☰</button>
@@ -305,9 +305,9 @@ function toggleSidebar(){document.getElementById('sidebar').classList.toggle('op
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('open');}
 
 // ── LOGIN ──
-function doLogin(){const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value;if(u.toLowerCase().trim()==='jenext mobile'&&p==='janith2005'){token='demo';localStorage.setItem('jenext_token',token);document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='block';document.getElementById('adminName').textContent='Jenext Admin';loadDashboard();}else{const e=document.getElementById('loginError');e.style.display='block';setTimeout(()=>e.style.display='none',3000);}}
+function doLogin(){const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value;if(u.toLowerCase().trim()==='jenext'&&p==='janith2005'){token='demo';localStorage.setItem('jenext_token',token);document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='flex';document.getElementById('adminName').textContent='Jenext Admin';loadDashboard();}else{const e=document.getElementById('loginError');e.style.display='block';setTimeout(()=>e.style.display='none',3000);}}
 function doLogout(){localStorage.removeItem('jenext_token');token='';document.getElementById('adminApp').style.display='none';document.getElementById('loginScreen').style.display='flex';}
-if(token){document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='block';document.getElementById('adminName').textContent='Jenext Admin';loadDashboard();}
+if(token){document.getElementById('loginScreen').style.display='none';document.getElementById('adminApp').style.display='flex';document.getElementById('adminName').textContent='Jenext Admin';loadDashboard();}
 
 // ── NAV ──
 function showPage(p,el){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');if(el)el.classList.add('active');closeSidebar();if(p==='dashboard')loadDashboard();if(p==='phones')renderPhones();if(p==='inquiries')renderInquiries();if(p==='repairs')renderRepairs();}
